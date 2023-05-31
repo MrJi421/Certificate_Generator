@@ -19,6 +19,10 @@
         margin-bottom: 25px;
         width: 100%;
     }
+    #btncheck{
+        position: relative;
+        top: -25%;
+    }
     footer{
         width: 100%;
         position: absolute;
@@ -32,48 +36,19 @@
     
     
     
-    <div class="container mt-5">
-        <h2 class="bg-primary p-5 text-center text-uppercase">Claim your certificate</h2>
-        <form name="Certifiacte_List" action="certificate.html" method="POST" class="mt-5 container-fluid row" netlify>
-        <!--
-            <div id="alrt-mess"> 
-                <div class="alert alert-danger alert-dismissible col-sm-12" id="alrt-70">
-                    <button type="button" class="btn btn-close" data-bs-dismiss="alert"></button>
-                    <strong>Sorry! </strong>You are not able to earn a certificate. Score upto 70% to get the certificate. Try again!
-                </div>
-            </div>
-        -->
+    <div class="container-fuild m-5 border border-primary">
+        <h2 class="bg-primary p-5 text-center text-light text-uppercase">Claim your certificate</h2>
+        <form action="thanku.html" method="POST" class="m-5 container-fuild row">
 
 
             <div class="col-sm-6">
-                <legend for="fname">First Name<span class="text-danger">*</span></legend>
-                <input type="text" name="firstName" id="fname" placeholder="eg. Vinay" required><br>
+                <legend for="fname">Name in Certificate<span class="text-danger">*</span></legend>
+                <input type="text" name="firstName" id="fname" placeholder="eg. Vinay Kumar" required><br>
 
             </div>
-            <div class="col-sm-6">
-                <legend for="lname">Last Name</legend>
-                <input type="text" name="lastName" id="lname" placeholder="eg. Kumar"><br>
-
-            </div>
-            <div class="col-sm-12">
-                <legend for="fmail">Email Address<span class="text-danger">*</span></legend>
-                <input type="email" name="email" id="fmail" placeholder="name@example.com" required><br>
-            </div>
-            <!--
-            <legend for="course">Course <span class="text-danger">*</span></legend>
-            <select type="select" name="course" id="course">
-                 <option value="" hidden></option>
-                <option value="WEB DESIGN FUNDAMENTALS: AN HTML PRIMER FOR BEGINNERS">WEB DESIGN FUNDAMENTALS: AN HTML PRIMER FOR BEGINNERS</option>
-            </select>    <br>
-            -->
-            <div class="col-sm-12">
-                <legend for="twitter">Twitter Username</legend>
-                <input type="text" name="firstName" id="twitter" placeholder="@Username"><br>
-
-            </div>
-            <div class="row">
-                <button type="submit" class="btn btn-success" id="btncheck">
-                    Claim Your Certificate
+            <div class="col-sm-6 mt-5 ml-4 ">
+                <button type="button" class="btn btn-success" id="btncheck" onclick="generateCertificate()">
+                    Download Your Certificate
                 </button>
             </div>
         </form>
@@ -159,5 +134,56 @@
 
     
 
+    <script>
+        function generateCertificate() {
+        // Get the input value
+        const name = document.getElementById('fname').value;
+       // const name = fname + " " + document.getElementById('lname').value;
+        //const cmail = document.getElementById('fmail').value;
+        if(name){
+            
+        // Create a canvas element
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+    
+        // Set the canvas size to match the certificate image dimensions
+        canvas.width = 800; 
+        canvas.height = 600; 
+    
+        // Load the certificate image onto the canvas
+        const certificateImage = new Image();
+    
+        certificateImage.src = 'images/html_certificate_gen.png'; // Replace with your certificate image path
+        certificateImage.onload = function() {
+          ctx.drawImage(certificateImage, 0, 0, canvas.width, canvas.height);
+    
+          // Customize the text style and position
+          ctx.font = '50px "Tangerina"';
+          ctx.fillStyle = '#E5C65F';
+          ctx.textAlign = 'right';
+          ctx.textBaseline = 'middle';
+    
+            // Draw the name on the canvas
+            ctx.fillText(name, canvas.width - 65, canvas.height / 2);
+    
+            // Convert the canvas to a data URL
+            const dataURL = canvas.toDataURL('image/png');
+    
+            // Create a link element and trigger the download
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'certificate.png'; // Set the desired filename
+            link.click();
+        };
+        }
+        /*
+        else{
+            // Get the alert element by its ID
+            const alertElement = document.getElementById("alrt-70");
+    
+            alertElement.style.display = "block";
+        }*/
+        }
+        </script>
 </body>
 </html>
